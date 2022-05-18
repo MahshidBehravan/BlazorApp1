@@ -11,9 +11,9 @@ namespace BlazorApp1.Server.Services.ProductService
         }
         public async Task<ServiceResponse<List<Product>>> GetProductAsync()
         {
-            var response= new ServiceResponse<List<Product>>
+            var response = new ServiceResponse<List<Product>>
             {
-                Data = await _context.Products.ToListAsync()
+                Data = await _context.Products.Include(p => p.Variants).ToListAsync()
             };
             return response;
         }
@@ -21,7 +21,11 @@ namespace BlazorApp1.Server.Services.ProductService
         public async Task<ServiceResponse<Product>> GetProductAsync(int productId)
         {
             var response = new ServiceResponse<Product>();
-            var product= await _context.Products.FindAsync(productId);
+            var product = await _context.Products.Include(p => p.Variants).ThenInclude(v=>v.ProductType)
+                .Include(p => p.Variants)
+                .FirstOrDefaultAsync(p=>p.Id== productId);
+
+
             if (product == null && response.Data== null)
             {
                 response.Success = false;
