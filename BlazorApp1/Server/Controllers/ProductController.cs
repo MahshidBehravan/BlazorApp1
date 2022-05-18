@@ -25,6 +25,13 @@ namespace BlazorApp1.Server.Controllers
             var products = await _productService.GetProductAsync(productId);
             return Ok(products);
         }
+        [HttpGet("category/{categoryURL}")]
+        public async Task<ActionResult<ServiceResponse<List<Category>>>> GetProductByCategory(string categoryURL)
+        {
+            var result = await _productService.GetProductsByCategory(categoryURL);
+            return Ok(result);
+
+        }   
 
     }
 }
