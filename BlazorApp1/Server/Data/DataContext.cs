@@ -10,6 +10,9 @@ namespace BlazorApp1.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductVariant>().HasKey(p => new{ p.ProductId , p.ProductTypeId});
+            modelBuilder.Entity<CartItem>().HasKey(c => new { c.UserId, c.ProductId, c.ProductTypeId });
+            modelBuilder.Entity<OrderItem>().HasKey(o => new {o.OrderId, o.ProductId, o.ProductTypeId });
+
 
             modelBuilder.Entity<ProductType>().HasData(
                   new ProductType { Id = 1, Name = "Default" },
@@ -259,6 +262,11 @@ namespace BlazorApp1.Server.Data
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<ProductVariant> ProductVariants { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+
 
 
     }

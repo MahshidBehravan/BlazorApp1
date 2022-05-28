@@ -5,6 +5,8 @@ global using BlazorApp1.Server.Services.ProductService;
 global using BlazorApp1.Server.Services.CategoryService;
 global using BlazorApp1.Server.Services.Cartservice;
 global using BlazorApp1.Server.Services.AuthService;
+global using BlazorApp1.Server.Services.OrderService;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,6 +27,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -39,8 +43,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     };
                 });
 
-
-
+// to read userid from http
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 app.UseSwaggerUI();
